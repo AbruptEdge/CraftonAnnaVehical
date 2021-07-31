@@ -12,12 +12,19 @@ using namespace std;
 
 
 struct invalidCharaterException : public exception {
-	const const char* what()
+		const char* what()
 		const throw () {
-		return "Bad Char Exception!";
+		return 0; // "Bad Char Exception!";
 	}
 };
 
+struct invalidRangeException : public exception {
+		const char* what()
+		const throw () {
+		return 0;
+		//"Bad Range Exception!";
+	}
+};
 
 //functions
 char character(char, int);
@@ -54,11 +61,9 @@ char character(char start, int offset) {
 			//deterines if upper or lower and does math acordingly.
 			if (isupper(start)) {
 				startNum = (int(start) - 64);
-				cout << "\nstart is a upper letter! " << startNum;
 			}
 			else {
 				startNum = (int(start) - 96);
-				cout << "\nstart is a lower letter! " << startNum;
 			}
 			//determines acceptable range for offset
 			if (offset > 0) {
@@ -72,8 +77,6 @@ char character(char start, int offset) {
 
 
 			if ((offset > low) and (offset < high)) {
-				cout << "\noffset is a number! " << offset;
-				cout << "\nrange is " << low << " to " << high;
 				newChar = char((start + offset));
 
 				cout << "\n" << newChar;
@@ -81,8 +84,7 @@ char character(char start, int offset) {
 			}
 			else {
 				//throw exception bc not a number.
-				cout << "\nBad Offset!";
-				return 'a';
+				throw invalidRangeException(); 
 			}
 
 		}
@@ -95,6 +97,10 @@ char character(char start, int offset) {
 		cout << e.what();
 	}
 
+	catch (invalidRangeException& e) {
+		cout << "\nRange Exception Caught!";
+		cout << e.what();
+	}
 
 };
 
